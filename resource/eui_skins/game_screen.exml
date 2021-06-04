@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.game_screen"
+	 width="640"
+	height="1136" xmlns:e="http://ns.egret.com/eui">
+	<e:Rect width="640" height="1136" x="0" y="0"/>
+	<e:Rect width="600" height="1020" x="20" y="90" fillColor="0xE7E4E4"/>
+	<e:Label text="Score:" x="20" y="37"/>
+	<e:Label id="scoreValue" text="0" x="119.174" y="37" width="141.269"/>
+	<e:Rect width="5" height="1020" x="75" y="90" fillColor="0x656464"/>
+	<e:Rect width="5" height="1020" x="135" y="90" fillColor="0x656464"/>
+	<e:Rect width="5" height="1020" x="195" y="90" fillColor="0x656464"/>
+	<e:Rect width="5" height="1020" x="255" y="90" fillColor="0x656464"/>
+	<e:Rect width="5" height="1020" x="315" y="90" fillColor="0x656464"/>
+	<e:Rect width="5" height="1020" x="375" y="90" fillColor="0x656464"/>
+	<e:Rect width="5" height="1020" x="435" y="90" fillColor="0x656464"/>
+	<e:Rect width="5" height="1020" x="495" y="90" fillColor="0x656464"/>
+	<e:Rect width="5" height="1020" x="555" y="90" fillColor="0x656464"/>
+	<e:Rect width="600" height="5" x="20" y="145" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="205" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="265" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="325" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="385" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="445" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="505" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="565" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="625" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="685" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="745" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="805" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="865" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="925" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="985" fillColor="0x656464"/>
+    <e:Rect width="600" height="5" x="20" y="1045" fillColor="0x656464"/>
+	<e:Image id="return_btn" width="50" height="50" y="17" x="570" source="return_bound_png"/>
+	<e:Group id="gameArea" width="600" height="1020" x="20" y="90"/>
+</e:Skin>

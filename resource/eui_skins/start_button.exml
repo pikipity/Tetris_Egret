@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.start_button"
+	 width="240"
+	height="100" xmlns:e="http://ns.egret.com/eui">
+	<e:Rect fillColor="0xFFFDFD" width="240" height="100" strokeColor="0xFFFFFF" x="-1" y="0"/>
+	<e:Label text="Start" y="35" x="85" textColor="0x000000" bold="true"/>
+</e:Skin>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.new_game_button"
+	 width="168"
+	height="68" xmlns:e="http://ns.egret.com/eui">
+	<e:Rect width="168" height="68" x="0" y="0" fillColor="0xFFFFFF"/>
+	<e:Label text="New Game" textColor="0xFF0000" size="25" horizontalCenter="0" verticalCenter="0" bold="true"/>
+</e:Skin>

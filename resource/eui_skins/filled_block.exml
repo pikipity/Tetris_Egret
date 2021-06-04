@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.filled_block"
+	 width="60"
+	height="60" xmlns:e="http://ns.egret.com/eui">
+	<e:Rect width="60" height="60" x="0" y="0" fillColor="0x210085"/>
+</e:Skin>

@@ -1,0 +1,20 @@
+{
+	"groups": [
+		{
+			"keys": "",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"url": "assets/return.png",
+			"type": "image",
+			"name": "return_png"
+		},
+		{
+			"url": "assets/return_bound.png",
+			"type": "image",
+			"name": "return_bound_png"
+		}
+	]
+}

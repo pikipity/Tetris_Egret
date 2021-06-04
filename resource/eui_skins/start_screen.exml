@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.start_screen"
+	 width="640"
+	height="1136" xmlns:e="http://ns.egret.com/eui">
+	<e:Rect fillColor="0x000000" fillAlpha="1" strokeColor="0x000000" width="640" left="0" top="0" height="1136"/>
+	<e:Label text="Tetris" bold="true" size="70" y="260.496" horizontalCenter="0"/>
+	<e:Button id="start_button" x="213.07" y="640.315" height="100" width="240" skinName="skins.start_button">
+	</e:Button>
+</e:Skin>

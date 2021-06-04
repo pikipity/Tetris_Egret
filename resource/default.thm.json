@@ -1,0 +1,34 @@
+{
+	"skins": {
+		"eui.start_screen": "resource/eui_skins/start_screen.exml",
+		"eui.start_button": "resource/eui_skins/start_button.exml",
+		"eui.start_button_press": "resource/eui_skins/start_button_press.exml",
+		"eui.none_screen": "resource/eui_skins/none_screen.exml",
+		"eui.game_screen": "resource/eui_skins/game_screen.exml",
+		"eui.finish": "resource/eui_skins/finish.exml",
+		"eui.new_game_button": "resource/eui_skins/new_game_button.exml",
+		"eui.filled_block": "resource/eui_skins/filled_block.exml",
+		"eui.block_1": "resource/eui_skins/block_1.exml",
+		"eui.block_2": "resource/eui_skins/block_2.exml",
+		"eui.block_3": "resource/eui_skins/block_3.exml",
+		"eui.block_4": "resource/eui_skins/block_4.exml",
+		"eui.block_5": "resource/eui_skins/block_5.exml"
+	},
+	"autoGenerateExmlsList": true,
+	"exmls": [
+		"resource/eui_skins/none_screen.exml",
+		"resource/eui_skins/start_button_press.exml",
+		"resource/eui_skins/start_button.exml",
+		"resource/eui_skins/start_screen.exml",
+		"resource/eui_skins/game_screen.exml",
+		"resource/eui_skins/finish.exml",
+		"resource/eui_skins/new_game_button.exml",
+		"resource/eui_skins/filled_block.exml",
+		"resource/eui_skins/block_1.exml",
+		"resource/eui_skins/block_2.exml",
+		"resource/eui_skins/block_3.exml",
+		"resource/eui_skins/block_4.exml",
+		"resource/eui_skins/block_5.exml"
+	],
+	"path": "resource/default.thm.json"
+}

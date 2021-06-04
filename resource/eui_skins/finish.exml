@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="skins.finish"
+	 width="640"
+	height="1136" xmlns:e="http://ns.egret.com/eui">
+	<e:Rect width="640" height="1136" x="0" y="0" fillAlpha="0.2"/>
+	<e:Rect width="540" height="570" y="290" x="50"/>
+	<e:Label text="Your Score" y="431.969" width="280.956" height="55.262" size="50" bold="true" verticalAlign="justify" textAlign="center" horizontalCenter="0"/>
+	<e:Label id="scoreValue_finish" text="0" y="513.061" width="280.956" height="55.262" size="50" bold="true" verticalAlign="justify" textAlign="center" horizontalCenter="0"/>
+	<e:Button id="new_game_button" label="Button" y="688.229" width="168" height="68" horizontalCenter="0" skinName="skins.new_game_button"/>
+</e:Skin>
