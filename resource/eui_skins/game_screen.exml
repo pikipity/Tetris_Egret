@@ -3,20 +3,18 @@
 	 width="640"
 	height="1136" xmlns:e="http://ns.egret.com/eui">
 	<e:Rect width="640" height="1136" x="0" y="0"/>
-	<e:Rect width="600" height="1020" x="20" y="90" fillColor="0xE7E4E4"/>
+	<e:Rect id="gameArea" width="600" height="960" x="20" y="150" fillColor="0xE7E4E4"/>
 	<e:Label text="Score:" x="20" y="37"/>
 	<e:Label id="scoreValue" text="0" x="119.174" y="37" width="141.269"/>
-	<e:Rect width="5" height="1020" x="75" y="90" fillColor="0x656464"/>
-	<e:Rect width="5" height="1020" x="135" y="90" fillColor="0x656464"/>
-	<e:Rect width="5" height="1020" x="195" y="90" fillColor="0x656464"/>
-	<e:Rect width="5" height="1020" x="255" y="90" fillColor="0x656464"/>
-	<e:Rect width="5" height="1020" x="315" y="90" fillColor="0x656464"/>
-	<e:Rect width="5" height="1020" x="375" y="90" fillColor="0x656464"/>
-	<e:Rect width="5" height="1020" x="435" y="90" fillColor="0x656464"/>
-	<e:Rect width="5" height="1020" x="495" y="90" fillColor="0x656464"/>
-	<e:Rect width="5" height="1020" x="555" y="90" fillColor="0x656464"/>
-	<e:Rect width="600" height="5" x="20" y="145" fillColor="0x656464"/>
-    <e:Rect width="600" height="5" x="20" y="205" fillColor="0x656464"/>
+	<e:Rect width="5" height="960" x="75" y="150" fillColor="0x656464"/>
+	<e:Rect width="5" height="960" x="135" y="150" fillColor="0x656464"/>
+	<e:Rect width="5" height="960" x="195" y="150" fillColor="0x656464"/>
+	<e:Rect width="5" height="960" x="255" y="150" fillColor="0x656464"/>
+	<e:Rect width="5" height="960" x="315" y="150" fillColor="0x656464"/>
+	<e:Rect width="5" height="960" x="375" y="150" fillColor="0x656464"/>
+	<e:Rect width="5" height="960" x="435" y="150" fillColor="0x656464"/>
+	<e:Rect width="5" height="960" x="495" y="150" fillColor="0x656464"/>
+	<e:Rect width="5" height="960" x="555" y="150" fillColor="0x656464"/>
     <e:Rect width="600" height="5" x="20" y="265" fillColor="0x656464"/>
     <e:Rect width="600" height="5" x="20" y="325" fillColor="0x656464"/>
     <e:Rect width="600" height="5" x="20" y="385" fillColor="0x656464"/>
@@ -31,6 +29,9 @@
     <e:Rect width="600" height="5" x="20" y="925" fillColor="0x656464"/>
     <e:Rect width="600" height="5" x="20" y="985" fillColor="0x656464"/>
     <e:Rect width="600" height="5" x="20" y="1045" fillColor="0x656464"/>
+	<e:Rect width="600" height="5" x="20" y="205" fillColor="0x656464"/>
 	<e:Image id="return_btn" width="50" height="50" y="17" x="570" source="return_bound_png"/>
-	<e:Group id="gameArea" width="600" height="1020" x="20" y="90"/>
+	<e:Rect width="100" height="100" x="380.648" y="17" fillColor="0xFFFFFF"/>
+	<e:Label text="Next:" x="289.648" y="37"/>
+	<e:Group id="next_display" width="80" height="80" x="390.648" y="27"/>
 </e:Skin>

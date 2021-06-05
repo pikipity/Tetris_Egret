@@ -93,16 +93,6 @@ class Main extends eui.UILayer {
     private nextGameState = 0;
     private currentGameScene;
 
-    private fillMtric: number[][];
-    private rowNum = 17;
-    private colNum = 10;
-    private score: number;
-    private currentBlock: number;
-    private nextBlock: number;
-    private newBlockFlag: boolean;
-
-    private pressedButton = 0; //0:none,1:up,2:left,3:right,4:down
-
     protected Game(): void {
         if(this.nextGameState!=this.currentGameState){
             //remove original scene
@@ -114,27 +104,14 @@ class Main extends eui.UILayer {
             switch(this.currentGameState){
                 case 0:{
                     console.log('Start Scene')
-                    // init game data
-                    this.score = 0;
-                    this.fillMtric = [];
-                    for(let i=0;i<this.rowNum;i++){
-                        let tmp = [];
-                        for(let i=0;i<this.colNum;i++){
-                            tmp.push(0);
-                        }
-                        this.fillMtric.push(tmp);
-                    }
-                    this.currentBlock = Math.floor(Math.random() * 4) + 1;
-                    this.nextBlock = Math.floor(Math.random() * 4) + 1;
-                    this.newBlockFlag = true;
                     //init backbround
                     this.currentGameScene = new StartScene();
                     break;
                 }
                 case 1:{
                     console.log('Main Game')
+                    //init backbround
                     this.currentGameScene = new GameScene();
-                    this.currentGameScene.updateScore(this.score);
                     break;
                 }
                 default:{
@@ -147,18 +124,14 @@ class Main extends eui.UILayer {
         }else{
             //current scene
 
-            //change screen
+            //change screen check
             if(this.currentGameScene.checkState()>=0){
                 this.nextGameState = this.currentGameScene.checkState();
             }
 
             //main game
             if(this.currentGameState==1){
-                //get key bord
-                this.pressedButton = this.currentGameScene.getKeyBord();
-                
-                //clean key bord
-                this.pressedButton = 0;
+                this.currentGameScene.onestep();
             }
         }
     }

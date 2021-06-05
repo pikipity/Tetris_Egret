@@ -5,5 +5,5 @@
     <e:Rect width="60" height="60" x="0" y="0" fillColor="0xFF0000" strokeColor="0x000000" strokeWeight="2.5"/>
 	<e:Rect width="60" height="60" x="60" y="0" fillColor="0xFF0000" strokeColor="0x000000" strokeWeight="2.5"/>
 	<e:Rect width="60" height="60" x="120" y="0" fillColor="0xFF0000" strokeColor="0x000000" strokeWeight="2.5"/>
-	<e:Rect width="60" height="60" x="0" y="10" fillColor="0xFF0000" strokeColor="0x000000" strokeWeight="2.5"/>
+	<e:Rect width="60" height="60" x="0" y="60" fillColor="0xFF0000" strokeColor="0x000000" strokeWeight="2.5"/>
 </e:Skin>

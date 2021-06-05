@@ -1,9 +1,19 @@
 class GameScene extends eui.Component{
     private changeState:number = -1;
+    private gameArea:eui.Rect;
+    private next_display:eui.Group;
 
-    private scoreValue:eui.Label;
-    private return_btn:eui.Button;
-    private gameArea:eui.Group;
+    //game data
+    private fillMatrix: number[][];
+    private moveMatrix: number[][];
+    private nextMoveMatrix: number[][];
+    private rowNum = 16;
+    private colNum = 10;
+    private blockWidth = 60;
+    private score: number;
+    private currentBlock: number;
+    private nextBlock: number;
+    private newBlockFlag: boolean;
 
 
     public checkState():number{
@@ -16,22 +26,35 @@ class GameScene extends eui.Component{
         this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.beginTouch, this);
         this.addEventListener(egret.TouchEvent.TOUCH_END, this.endTouch, this);
         this.return_btn.addEventListener(egret.TouchEvent.TOUCH_END, this.endTouchReturn, this);
+        //init game data
+        this.score = 0;
+        this.fillMatrix = [];
+        for(let i=0;i<this.rowNum;i++){
+            let tmp = [];
+            for(let i=0;i<this.colNum;i++){
+                tmp.push(0);
+            }
+            this.fillMatrix.push(tmp);
+        }
+        this.moveMatrix=this.fillMatrix;
+        this.nextMoveMatrix=this.fillMatrix;
+        this.currentBlock = Math.floor(Math.random() * 4) + 1;
+        this.nextBlock = Math.floor(Math.random() * 4) + 1;
+        this.newBlockFlag = true;
+        this.updateScore(this.score);
     }
 
+    private scoreValue:eui.Label;
     public updateScore(newScore:number){
         this.scoreValue.text = String(newScore);
     }
 
-    public getKeyBord(){
-        return this.pressedButton
-    }
-    public cleanKeyBord(){
-        this.pressedButton = 0;
-    }
-
+    
+    private return_btn:eui.Button;
     private endTouchReturn(evt: egret.TouchEvent){
         this.changeState = 0;
     }
+
 
     private pressedButton = 0; //0:none,1:up,2:left,3:right,4:down
     private pressMove = [[0,0], [0,0]];
@@ -59,6 +82,22 @@ class GameScene extends eui.Component{
                 }
             }
         }
+    }
+    public getKeyBord(){
+        return this.pressedButton
+    }
+    public cleanKeyBord(){
+        this.pressedButton = 0;
+    }
+
+
+    //main update logic
+    public onestep(){
+        //get key bord
+        let pressedButton = this.getKeyBord();
+        
+        //clean key bord
+        this.cleanKeyBord();
     }
 
 }
