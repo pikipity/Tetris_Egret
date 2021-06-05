@@ -18,7 +18,7 @@ class FilledBlock extends eui.Component{
         if(blockNum==0){
             this.skinName = "resource/eui_skins/filled_block.exml";
         }else{
-            this.skinName = "resource/eui_skins/block_"+blockStr+".exml";
+            this.skinName = "resource/eui_skins/block_"+blockStr+"_filled.exml";
         }
         this.rotationBlock(angle)
     }

@@ -48,25 +48,10 @@ class GameScene extends eui.Component{
         this.addEventListener(egret.TouchEvent.TOUCH_END, this.endTouch, this);
         this.return_btn.addEventListener(egret.TouchEvent.TOUCH_END, this.endTouchReturn, this);
         //init game data
-        this.score = 0;
+        this.score = 10;
         this.currentBlock = new MoveBlock(0,0);
         this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 4) + 1,Math.floor(Math.random() * 3));
         this.newBlockFlag = true;
-        /*
-        this.fillMatrix = [];
-        for(let i=0;i<this.rowNum;i++){
-            let tmp = [];
-            for(let i=0;i<this.colNum;i++){
-                tmp.push(0);
-            }
-            this.fillMatrix.push(tmp);
-        }
-        this.moveMatrix=this.fillMatrix;
-        this.nextMoveMatrix=this.fillMatrix;
-        this.currentBlock = Math.floor(Math.random() * 4) + 1;
-        this.nextBlock = Math.floor(Math.random() * 4) + 1;
-        this.newBlockFlag = true;
-        */
         this.updateScore(this.score);
         //add ground
         let gameAareaMask = new egret.Rectangle(0,0,this.gameArea.width,this.gameArea.height);
@@ -99,6 +84,9 @@ class GameScene extends eui.Component{
     private scoreValue:eui.Label;
     private updateScore(newScore:number){
         this.scoreValue.text = String(newScore);
+    }
+    public getScore(){
+        return this.score;
     }
 
     
@@ -211,8 +199,12 @@ class GameScene extends eui.Component{
             this.currentBlock = new MoveBlock(this.nextBlock.getBlockNum(),this.nextBlock.getAngle());
             this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 4) + 1,Math.floor(Math.random() * 3));
             this.newBlockFlag = false;
-            this.UpdateDisplayNextBlock();
             this.UpdateDisplayRunBlock(Math.floor((60*5-this.currentBlock.currentWidth/2)/60)*60,-this.currentBlock.currentHeight);
+            if(this.CheckTouchBottom(this.currentBlock)){
+                this.changeState = 2;
+            }else{
+                this.UpdateDisplayNextBlock();
+            }
             this.preMoveFrame = 0;
             this.maxPreMoveFrame = 30*0.5
         }else if(this.preMoveFrame > this.maxPreMoveFrame || pressedButton != 0){
@@ -220,11 +212,20 @@ class GameScene extends eui.Component{
             if(pressedButton == 0){
                 let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
                 pseudoBlock.moveBlock(this.currentBlock.x + 0,this.currentBlock.y + 60);
-                console.log(this.CheckTouchBottom(pseudoBlock))
-                this.UpdateDisplayRunBlock(0,60)
+                if(this.CheckTouchBottom(pseudoBlock)){
+                    this.gameArea.removeChildAt(0);
+                    let newFillBlock = new FilledBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
+                    newFillBlock.moveBlock(this.currentBlock.x,this.currentBlock.y);
+                    this.gameArea.addChild(newFillBlock);
+                    this.newBlockFlag = true;
+                    this.preMoveFrame = 0;
+                    this.maxPreMoveFrame = 30*0.3
+                }else{
+                    this.UpdateDisplayRunBlock(0,60)
+                    this.preMoveFrame = 0;
+                    this.maxPreMoveFrame = 30*0.5
+                }
             }
-            this.preMoveFrame = 0;
-            this.maxPreMoveFrame = 30*1
         }
         //clean key bord
         this.cleanKeyBord();

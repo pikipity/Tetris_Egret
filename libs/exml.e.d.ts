@@ -1,5 +1,21 @@
 declare module skins{
+	class block_0_filled extends eui.Skin{
+	}
+}
+declare module skins{
+	class block_0 extends eui.Skin{
+	}
+}
+declare module skins{
+	class block_1_filled extends eui.Skin{
+	}
+}
+declare module skins{
 	class block_1 extends eui.Skin{
+	}
+}
+declare module skins{
+	class block_2_filled extends eui.Skin{
 	}
 }
 declare module skins{
@@ -7,11 +23,23 @@ declare module skins{
 	}
 }
 declare module skins{
+	class block_3_filled extends eui.Skin{
+	}
+}
+declare module skins{
 	class block_3 extends eui.Skin{
 	}
 }
 declare module skins{
+	class block_4_filled extends eui.Skin{
+	}
+}
+declare module skins{
 	class block_4 extends eui.Skin{
+	}
+}
+declare module skins{
+	class block_5_filled extends eui.Skin{
 	}
 }
 declare module skins{
@@ -28,6 +56,10 @@ declare module skins{
 }
 declare module skins{
 	class game_screen extends eui.Skin{
+	}
+}
+declare module skins{
+	class move_block extends eui.Skin{
 	}
 }
 declare module skins{

@@ -96,8 +96,10 @@ class Main extends eui.UILayer {
     protected Game(): void {
         if(this.nextGameState!=this.currentGameState){
             //remove original scene
-            if (this.currentGameState!=-1){
-                this.removeChild(this.currentGameScene)
+            if (this.currentGameState!=-1 && this.nextGameState!=2){
+                for(let i=0;i<this.numChildren;i++){
+                    this.removeChildAt(i)
+                }
             }
             //build new scene
             this.currentGameState = this.nextGameState;
@@ -112,6 +114,12 @@ class Main extends eui.UILayer {
                     console.log('Main Game')
                     //init backbround
                     this.currentGameScene = new GameScene();
+                    break;
+                }
+                case 2:{
+                    console.log('Finish Game')
+                    let score = this.currentGameScene.getScore();
+                    this.currentGameScene = new FinishScene(score);
                     break;
                 }
                 default:{

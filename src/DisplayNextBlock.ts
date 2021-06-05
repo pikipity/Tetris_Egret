@@ -1,4 +1,5 @@
 class DisplayNextBlock extends eui.Component{
+    
     private blockNum = 0;
     private rotation_angle_number = 0;
     private rotation_anchor_change = [[60/2, 60/2],
@@ -68,6 +69,5 @@ class DisplayNextBlock extends eui.Component{
         this.x = this.x + distanceX;
         this.y = this.y + distanceY;
     }
-    
 
 }
