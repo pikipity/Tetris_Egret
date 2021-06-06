@@ -30,11 +30,11 @@ class GameScene extends eui.Component{
     private currentBlock;
     private nextBlock;
     private newBlockFlag: boolean;
-    private start_pos = [[3*60,-1*60],
-                         [3*60,-2*60],
-                         [3*60,-2*60],
-                         [3*60,-2*60],
-                         [3*60,-2*60]];
+    private start_pos = [[3*this.blockWidth,-1*this.blockWidth],
+                         [3*this.blockWidth,-2*this.blockWidth],
+                         [3*this.blockWidth,-2*this.blockWidth],
+                         [3*this.blockWidth,-2*this.blockWidth],
+                         [3*this.blockWidth,-2*this.blockWidth]];
 
 
 
@@ -49,11 +49,11 @@ class GameScene extends eui.Component{
         this.addEventListener(egret.TouchEvent.TOUCH_END, this.endTouch, this);
         this.return_btn.addEventListener(egret.TouchEvent.TOUCH_END, this.endTouchReturn, this);
         //init game data
-        this.score = 10;
+        this.score = 0;
         this.currentBlock = new MoveBlock(0,0);
         this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 5) + 1,Math.floor(Math.random() * 4));
         this.newBlockFlag = true;
-        this.updateScore(this.score);
+        this.updateScore();
         //add ground
         let gameAareaMask = new egret.Rectangle(0,0,this.gameArea.width,this.gameArea.height);
         this.gameArea.mask = gameAareaMask;
@@ -61,7 +61,7 @@ class GameScene extends eui.Component{
         //this.gameArea.addChild(new MoveBlock(2,3)) //for test
         for(let i=0;i<this.colNum;i++){
             let tmp = new FilledBlock(0,0);
-            tmp.moveBlock(i*60,this.gameArea.height)
+            tmp.moveBlock(i*this.blockWidth,this.gameArea.height)
             this.gameArea.addChild(tmp)
         }
         //add init display blocks
@@ -84,8 +84,8 @@ class GameScene extends eui.Component{
     }
 
     private scoreValue:eui.Label;
-    private updateScore(newScore:number){
-        this.scoreValue.text = String(newScore);
+    private updateScore(){
+        this.scoreValue.text = String(this.score);
     }
     public getScore(){
         return this.score;
@@ -152,13 +152,13 @@ class GameScene extends eui.Component{
         tmp = this.rotationTransform(childX,childY,parentAngle);
         let childX1 = parentAnchorX + tmp[0];
         let childY1 = parentAnchorY + tmp[1];
-        tmp = this.rotationTransform(0,60,parentAngle);
+        tmp = this.rotationTransform(0,this.blockWidth,parentAngle);
         let childX2 = childX1 + tmp[0];
         let childY2 = childY1 + tmp[1];
-        tmp = this.rotationTransform(60,60,parentAngle);
+        tmp = this.rotationTransform(this.blockWidth,this.blockWidth,parentAngle);
         let childX3 = childX1 + tmp[0];
         let childY3 = childY1 + tmp[1];
-        tmp = this.rotationTransform(60,0,parentAngle);
+        tmp = this.rotationTransform(this.blockWidth,0,parentAngle);
         let childX4 = childX1 + tmp[0];
         let childY4 = childY1 + tmp[1];
         let resX = Math.min(childX1,childX2,childX3,childX4);
@@ -197,7 +197,7 @@ class GameScene extends eui.Component{
             let pseudoBlockElement = pseudoBlock.getChildAt(pseudoBlockElementNum);
             let pseudoBlockElementLoc = this.getChildBlockLoc(pseudoBlock.x,pseudoBlock.y,pseudoBlock.anchorOffsetX,pseudoBlock.anchorOffsetY,pseudoBlock.getAngle(),pseudoBlockElement.x,pseudoBlockElement.y);
             //console.log(pseudoBlockElementLoc)
-            for(let gameAreaElementNum = 1; gameAreaElementNum < this.gameArea.numChildren; gameAreaElementNum++){
+            for(let gameAreaElementNum = 0; gameAreaElementNum < this.gameArea.numChildren; gameAreaElementNum++){
                 let gameAreaElement = this.gameArea.getChildAt(gameAreaElementNum);
                 let downElementList = gameAreaElement.$children;
                 for(let downElementNum = 0; downElementNum < downElementList.length; downElementNum++){
@@ -212,6 +212,61 @@ class GameScene extends eui.Component{
             }
         }
         return touchBottomFlag;
+    }
+
+    private CheckBottom(){
+        //collect all element information
+        let countElementNum = [];
+        let elementLoc = [];
+        for(let i=0;i<this.rowNum;i++){
+            countElementNum.push(0);
+            elementLoc.push([]);
+        }
+        for(let gameAreaElementNum = 0; gameAreaElementNum < this.gameArea.numChildren; gameAreaElementNum++){
+            let gameAreaElement = this.gameArea.getChildAt(gameAreaElementNum);
+            let selectRow = gameAreaElement.y/60;
+            if(selectRow<this.rowNum && selectRow>=0){
+                countElementNum[selectRow] += 1;
+                elementLoc[selectRow].push(gameAreaElementNum);
+            }
+        }
+        //console.log(countElementNum)
+        //console.log(elementLoc)
+        //remove and move
+        let deletRow = [];
+        for(let i=0;i<this.rowNum;i++){
+            if(countElementNum[i]>=this.colNum){
+                deletRow.push(i);
+            }
+        }
+        return deletRow
+    }
+
+    private removeBottom(deletRow:number[]){
+        for(let i=0;i<deletRow.length;i++){
+            let selecteElementNum = 0;
+            while(selecteElementNum<this.gameArea.numChildren){
+                let selectElement = this.gameArea.getChildAt(selecteElementNum);
+                if(selectElement.y==deletRow[i]*this.blockWidth){
+                    this.gameArea.removeChild(selectElement)
+                }else{
+                    selecteElementNum++;
+                }
+            }
+        }
+    }
+
+    private moveBottom(deletRow:number[]){
+        for(let i=0;i<deletRow.length;i++){
+            let selecteElementNum = 0;
+            while(selecteElementNum<this.gameArea.numChildren){
+                let selectElement = this.gameArea.getChildAt(selecteElementNum);
+                if(selectElement.y<deletRow[i]*this.blockWidth){
+                    selectElement.y += this.blockWidth
+                }
+                selecteElementNum++;
+            }
+        }
     }
 
     private CheckLeftBound(pseudoBlock:MoveBlock){
@@ -232,7 +287,7 @@ class GameScene extends eui.Component{
         for(let pseudoBlockElementNum = 0; pseudoBlockElementNum < pseudoBlock.numChildren; pseudoBlockElementNum++){
             let pseudoBlockElement = pseudoBlock.getChildAt(pseudoBlockElementNum);
             let pseudoBlockElementLoc = this.getChildBlockLoc(pseudoBlock.x,pseudoBlock.y,pseudoBlock.anchorOffsetX,pseudoBlock.anchorOffsetY,pseudoBlock.getAngle(),pseudoBlockElement.x,pseudoBlockElement.y);
-            if(pseudoBlockElementLoc[0]+60>this.gameArea.width){
+            if(pseudoBlockElementLoc[0]+this.blockWidth>this.gameArea.width){
                 touchBottomFlag = true;
                 return touchBottomFlag;
             }
@@ -248,24 +303,51 @@ class GameScene extends eui.Component{
 
     //main update logic
     private preMoveFrame = 0;
-    private maxPreMoveFrame = 30*1;
+    private frameNumber = 30;
+    private maxPreMoveFrame = this.frameNumber*1;
+    private moveSpeed = 0.5;
+    private newSpeed = 0.3;
+    private bottomRemoveFlag = false;
+    private bottomMoveFlag = false;
+    private deletRow;
     public onestep(){
+        //update score
+        this.updateScore()
         //get key bord
         let pressedButton = this.getKeyBord();
         //game logic
         if(this.newBlockFlag){
-            //create new block
-            this.currentBlock = new MoveBlock(this.nextBlock.getBlockNum(),this.nextBlock.getAngle());
-            this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 5) + 1,Math.floor(Math.random() * 4));
-            this.newBlockFlag = false;
-            this.UpdateDisplayRunBlock(Math.floor((60*5-this.currentBlock.currentWidth/2)/60)*60,-this.currentBlock.currentHeight);
-            if(this.CheckTouchBottom(this.currentBlock)){
-                this.changeState = 2;
-            }else{
-                this.UpdateDisplayNextBlock();
+            if(!this.bottomRemoveFlag && !this.bottomMoveFlag){
+                this.deletRow = this.CheckBottom();
             }
-            this.preMoveFrame = 0;
-            this.maxPreMoveFrame = 30*0.5
+            if(this.deletRow.length == 0 && !this.bottomRemoveFlag && !this.bottomMoveFlag){
+                //create new block
+                this.currentBlock = new MoveBlock(this.nextBlock.getBlockNum(),this.nextBlock.getAngle());
+                this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 5) + 1,Math.floor(Math.random() * 4));
+                this.newBlockFlag = false;
+                this.UpdateDisplayRunBlock(Math.floor((this.blockWidth*5-this.currentBlock.currentWidth/2)/this.blockWidth)*this.blockWidth,-this.currentBlock.currentHeight);
+                if(this.CheckTouchBottom(this.currentBlock)){
+                    this.changeState = 2;
+                }else{
+                    this.UpdateDisplayNextBlock();
+                }
+                this.preMoveFrame = 0;
+                this.maxPreMoveFrame = this.frameNumber*this.moveSpeed
+            }else{
+                if(this.bottomRemoveFlag){
+                    this.bottomRemoveFlag = false;
+                    this.removeBottom(this.deletRow);
+                }else if(this.bottomMoveFlag){
+                    this.bottomMoveFlag = false;
+                    this.moveBottom(this.deletRow);
+                }else if(this.deletRow.length != 0){
+                    this.bottomRemoveFlag = true;
+                    this.bottomMoveFlag = true;
+                    this.score += Math.pow(2,this.deletRow.length);
+                }
+                this.preMoveFrame = 0;
+                this.maxPreMoveFrame = this.frameNumber*this.newSpeed
+            }
         }else if(this.preMoveFrame > this.maxPreMoveFrame || pressedButton != 0){
             //block move    0:none,1:up,2:left,3:right,4:down
             if(pressedButton == 1){
@@ -275,63 +357,67 @@ class GameScene extends eui.Component{
                 if(this.CheckLeftBound(pseudoBlock) || this.CheckTouchBottom(pseudoBlock) || this.CheckRightBound(pseudoBlock)){
                     this.UpdateDisplayRunBlock(0,0)
                     this.preMoveFrame = 0;
-                    this.maxPreMoveFrame = 30*0.5
+                    this.maxPreMoveFrame = this.frameNumber*this.moveSpeed
                 }else{
                     this.UpdateDisplayRotationBlock()
                     this.preMoveFrame = 0;
-                    this.maxPreMoveFrame = 30*0.5
+                    this.maxPreMoveFrame = this.frameNumber*this.moveSpeed
                 }
             }else if(pressedButton == 2){
                 let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
-                pseudoBlock.moveBlock(this.currentBlock.x - 60,this.currentBlock.y + 0);
+                pseudoBlock.moveBlock(this.currentBlock.x - this.blockWidth,this.currentBlock.y + 0);
                 if(this.CheckLeftBound(pseudoBlock) || this.CheckTouchBottom(pseudoBlock)){
                     this.UpdateDisplayRunBlock(0,0)
                     this.preMoveFrame = 0;
-                    this.maxPreMoveFrame = 30*0.5
+                    this.maxPreMoveFrame = this.frameNumber*this.moveSpeed
                 }else{
-                    this.UpdateDisplayRunBlock(-60,0)
+                    this.UpdateDisplayRunBlock(-this.blockWidth,0)
                     this.preMoveFrame = 0;
-                    this.maxPreMoveFrame = 30*0.5
+                    this.maxPreMoveFrame = this.frameNumber*this.moveSpeed
                 }
             }else if(pressedButton == 3){
                 let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
-                pseudoBlock.moveBlock(this.currentBlock.x + 60,this.currentBlock.y + 0);
+                pseudoBlock.moveBlock(this.currentBlock.x + this.blockWidth,this.currentBlock.y + 0);
                 if(this.CheckRightBound(pseudoBlock) || this.CheckTouchBottom(pseudoBlock)){
                     this.UpdateDisplayRunBlock(0,0)
                     this.preMoveFrame = 0;
-                    this.maxPreMoveFrame = 30*0.5
+                    this.maxPreMoveFrame = this.frameNumber*this.moveSpeed
                 }else{
-                    this.UpdateDisplayRunBlock(60,0)
+                    this.UpdateDisplayRunBlock(this.blockWidth,0)
                     this.preMoveFrame = 0;
-                    this.maxPreMoveFrame = 30*0.5
+                    this.maxPreMoveFrame = this.frameNumber*this.moveSpeed
                 }
             }else if(pressedButton == 4){
                 let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
                 pseudoBlock.moveBlock(this.currentBlock.x + 0,this.currentBlock.y + 0);
                 let moveDistance = 0;
                 while(!this.CheckTouchBottom(pseudoBlock)){
-                    pseudoBlock.moveBlock(0,60);
-                    moveDistance += 60;
+                    pseudoBlock.moveBlock(0,this.blockWidth);
+                    moveDistance += this.blockWidth;
                 }
-                this.UpdateDisplayRunBlock(0,moveDistance-60);
+                this.UpdateDisplayRunBlock(0,moveDistance-this.blockWidth);
                 this.preMoveFrame = 0;
-                this.maxPreMoveFrame = 30*0.5
+                this.maxPreMoveFrame = this.frameNumber*this.moveSpeed
             }else if(pressedButton == 0){
                 let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
-                pseudoBlock.moveBlock(this.currentBlock.x + 0,this.currentBlock.y + 60);
+                pseudoBlock.moveBlock(this.currentBlock.x + 0,this.currentBlock.y + this.blockWidth);
                 if(this.CheckTouchBottom(pseudoBlock)){
                     this.runArea.removeChildAt(0);
                     this.runArea.addChildAt(new MoveBlock(0,0),0);
-                    let newFillBlock = new FilledBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
-                    newFillBlock.moveBlock(this.currentBlock.x,this.currentBlock.y);
-                    this.gameArea.addChild(newFillBlock);
+                    for(let i=0;i<this.currentBlock.numChildren;i++){
+                        let element = this.currentBlock.getChildAt(i);
+                        let elementLoc = this.getChildBlockLoc(this.currentBlock.x,this.currentBlock.y,this.currentBlock.anchorOffsetX,this.currentBlock.anchorOffsetY,this.currentBlock.getAngle(),element.x,element.y);
+                        let newFillBlock = new FilledBlock(0,0);
+                        newFillBlock.moveBlock(elementLoc[0],elementLoc[1]);
+                        this.gameArea.addChild(newFillBlock);
+                    }
                     this.newBlockFlag = true;
                     this.preMoveFrame = 0;
-                    this.maxPreMoveFrame = 30*0.3
+                    this.maxPreMoveFrame = this.frameNumber*this.newSpeed
                 }else{
-                    this.UpdateDisplayRunBlock(0,60)
+                    this.UpdateDisplayRunBlock(0,this.blockWidth)
                     this.preMoveFrame = 0;
-                    this.maxPreMoveFrame = 30*0.5
+                    this.maxPreMoveFrame = this.frameNumber*this.moveSpeed
                 }
             }
         }
