@@ -4,25 +4,6 @@ class GameScene extends eui.Component{
     private runArea:eui.Group;
 
     //game data
-    /*
-    private fillMatrix: number[][];
-    private moveMatrix: number[][];
-    private nextMoveMatrix: number[][];
-    private rowNum = 16;
-    private colNum = 10;
-    private blockWidth = 60;
-    private score: number;
-    private start_pos = [[0,3],
-                         [0,3],
-                         [0,3],
-                         [0,3],
-                         [0,4]];
-    private block_pos = [[0,0],[0,1],[0,2],[0,3],
-                         [0,1],[1,0],[1,1],[1,2],
-                         [0,0],[1,0],[1,1],[1,2],
-                         [0,0],[0,1],[0,2],[1,0],
-                         [0,0],[0,1],[1,0],[1,1]];
-    */
     private rowNum = 16;
     private colNum = 10;
     private blockWidth = 60;
@@ -230,8 +211,6 @@ class GameScene extends eui.Component{
                 elementLoc[selectRow].push(gameAreaElementNum);
             }
         }
-        //console.log(countElementNum)
-        //console.log(elementLoc)
         //remove and move
         let deletRow = [];
         for(let i=0;i<this.rowNum;i++){
