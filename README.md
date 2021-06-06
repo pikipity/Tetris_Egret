@@ -5,6 +5,8 @@
 
 游戏网址：[https://pikipity.github.io/Tetris_Egret/bin-release/web/0.1/](https://pikipity.github.io/Tetris_Egret/bin-release/web/0.1/)
 
+白鹭引擎：[https://www.egret.com/](https://www.egret.com/)
+
 操作方式：
 + 向上滑动（鼠标或手指）：旋转
 + 向下滑动（鼠标或手指）：落底
@@ -13,8 +15,5 @@
 
 游戏画面：
 
-![](https://raw.githubusercontent.com/pikipity/Tetris_Egret/main/screenshot/1.PNG)
+<img src="https://raw.githubusercontent.com/pikipity/Tetris_Egret/main/screenshot/1.PNG" width="200"/><span>&nbsp;&nbsp;&nbsp;</span><img src="https://raw.githubusercontent.com/pikipity/Tetris_Egret/main/screenshot/2.PNG" width="200"/><span>&nbsp;&nbsp;&nbsp;</span><img src="https://raw.githubusercontent.com/pikipity/Tetris_Egret/main/screenshot/3.PNG" width="200"/>
 
-![](https://raw.githubusercontent.com/pikipity/Tetris_Egret/main/screenshot/2.PNG)
-
-![](https://raw.githubusercontent.com/pikipity/Tetris_Egret/main/screenshot/3.PNG)
