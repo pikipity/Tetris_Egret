@@ -51,7 +51,7 @@ class GameScene extends eui.Component{
         //init game data
         this.score = 10;
         this.currentBlock = new MoveBlock(0,0);
-        this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 4) + 1,Math.floor(Math.random() * 3));
+        this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 5) + 1,Math.floor(Math.random() * 4));
         this.newBlockFlag = true;
         this.updateScore(this.score);
         //add ground
@@ -140,7 +140,7 @@ class GameScene extends eui.Component{
 
     private UpdateDisplayRotationBlock(){
         this.runArea.removeChildAt(0);
-        this.currentBlock.rotationBlock(1);
+        this.rotationBlock(this.currentBlock);
         this.runArea.addChildAt(this.currentBlock,0);
     }
 
@@ -164,6 +164,31 @@ class GameScene extends eui.Component{
         let resX = Math.min(childX1,childX2,childX3,childX4);
         let resY = Math.min(childY1,childY2,childY3,childY4);
         return [resX,resY]
+    }
+
+    private rotationBlock(block:MoveBlock){
+        let selectBlockNum = 0;
+        let centerX = block.width/2;
+        let centerY = block.height/2;
+        if(block.getBlockNum()>=1 && block.getBlockNum()<=4){
+            let minDis = Math.pow(10,3);
+            for(let i=0;i<block.numChildren;i++){
+                let blockElement = block.getChildAt(i);
+                let blockElementDis = Math.sqrt(Math.pow(blockElement.x-centerX,2)+Math.pow(blockElement.y-centerY,2));
+                if(blockElementDis<minDis){
+                    minDis = blockElementDis;
+                    selectBlockNum = i;
+                }
+            }
+        }else{
+            return;
+        }
+        let element = block.getChildAt(selectBlockNum);
+        let elementLoc = this.getChildBlockLoc(block.x,block.y,block.anchorOffsetX,block.anchorOffsetY,block.getAngle(),element.x,element.y);
+        block.rotationBlock(1);
+        element = block.getChildAt(selectBlockNum);
+        let newElementLoc = this.getChildBlockLoc(block.x,block.y,block.anchorOffsetX,block.anchorOffsetY,block.getAngle(),element.x,element.y);
+        block.moveBlock(elementLoc[0]-newElementLoc[0],elementLoc[1]-newElementLoc[1])
     }
 
     private CheckTouchBottom(pseudoBlock:MoveBlock){
@@ -231,7 +256,7 @@ class GameScene extends eui.Component{
         if(this.newBlockFlag){
             //create new block
             this.currentBlock = new MoveBlock(this.nextBlock.getBlockNum(),this.nextBlock.getAngle());
-            this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 4) + 1,Math.floor(Math.random() * 3));
+            this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 5) + 1,Math.floor(Math.random() * 4));
             this.newBlockFlag = false;
             this.UpdateDisplayRunBlock(Math.floor((60*5-this.currentBlock.currentWidth/2)/60)*60,-this.currentBlock.currentHeight);
             if(this.CheckTouchBottom(this.currentBlock)){
@@ -246,7 +271,7 @@ class GameScene extends eui.Component{
             if(pressedButton == 1){
                 let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
                 pseudoBlock.moveBlock(this.currentBlock.x - 0,this.currentBlock.y + 0);
-                pseudoBlock.rotationBlock(1);
+                this.rotationBlock(pseudoBlock);
                 if(this.CheckLeftBound(pseudoBlock) || this.CheckTouchBottom(pseudoBlock) || this.CheckRightBound(pseudoBlock)){
                     this.UpdateDisplayRunBlock(0,0)
                     this.preMoveFrame = 0;
