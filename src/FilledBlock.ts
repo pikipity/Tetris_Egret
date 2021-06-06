@@ -10,9 +10,11 @@ class FilledBlock extends eui.Component{
                                       [60, 60]];
     private currentHeight;
     private currentWidth;
+    private ID;
 
     public constructor(blockNum:number, angle:number){
         super();
+        this.ID = 2;
         this.blockNum = blockNum;
         let blockStr = String(blockNum);
         if(blockNum==0){

@@ -1,6 +1,7 @@
 class GameScene extends eui.Component{
     private changeState:number = -1;
     private gameArea:eui.Group;
+    private runArea:eui.Group;
 
     //game data
     /*
@@ -56,6 +57,7 @@ class GameScene extends eui.Component{
         //add ground
         let gameAareaMask = new egret.Rectangle(0,0,this.gameArea.width,this.gameArea.height);
         this.gameArea.mask = gameAareaMask;
+        this.runArea.mask = gameAareaMask;
         //this.gameArea.addChild(new MoveBlock(2,3)) //for test
         for(let i=0;i<this.colNum;i++){
             let tmp = new FilledBlock(0,0);
@@ -63,7 +65,7 @@ class GameScene extends eui.Component{
             this.gameArea.addChild(tmp)
         }
         //add init display blocks
-        this.gameArea.addChildAt(new MoveBlock(0,0),0);
+        this.runArea.addChildAt(new MoveBlock(0,0),0);
         this.next_display.addChild(new DisplayNextBlock(0,0))
     }
 
@@ -131,9 +133,15 @@ class GameScene extends eui.Component{
     }
 
     private UpdateDisplayRunBlock(runX:number, runY:number){
-        this.gameArea.removeChildAt(0);
+        this.runArea.removeChildAt(0);
         this.currentBlock.moveBlock(runX,runY);
-        this.gameArea.addChildAt(this.currentBlock,0);
+        this.runArea.addChildAt(this.currentBlock,0);
+    }
+
+    private UpdateDisplayRotationBlock(){
+        this.runArea.removeChildAt(0);
+        this.currentBlock.rotationBlock(1);
+        this.runArea.addChildAt(this.currentBlock,0);
     }
 
     private getChildBlockLoc(parentX:number,parentY:number,parentAnchorOffX:number,parentAnchorOffY:number,parentAngle:number,
@@ -181,6 +189,32 @@ class GameScene extends eui.Component{
         return touchBottomFlag;
     }
 
+    private CheckLeftBound(pseudoBlock:MoveBlock){
+        let touchBottomFlag = false;
+        for(let pseudoBlockElementNum = 0; pseudoBlockElementNum < pseudoBlock.numChildren; pseudoBlockElementNum++){
+            let pseudoBlockElement = pseudoBlock.getChildAt(pseudoBlockElementNum);
+            let pseudoBlockElementLoc = this.getChildBlockLoc(pseudoBlock.x,pseudoBlock.y,pseudoBlock.anchorOffsetX,pseudoBlock.anchorOffsetY,pseudoBlock.getAngle(),pseudoBlockElement.x,pseudoBlockElement.y);
+            if(pseudoBlockElementLoc[0]<0){
+                touchBottomFlag = true;
+                return touchBottomFlag;
+            }
+        }
+        return touchBottomFlag;
+    }
+
+    private CheckRightBound(pseudoBlock:MoveBlock){
+        let touchBottomFlag = false;
+        for(let pseudoBlockElementNum = 0; pseudoBlockElementNum < pseudoBlock.numChildren; pseudoBlockElementNum++){
+            let pseudoBlockElement = pseudoBlock.getChildAt(pseudoBlockElementNum);
+            let pseudoBlockElementLoc = this.getChildBlockLoc(pseudoBlock.x,pseudoBlock.y,pseudoBlock.anchorOffsetX,pseudoBlock.anchorOffsetY,pseudoBlock.getAngle(),pseudoBlockElement.x,pseudoBlockElement.y);
+            if(pseudoBlockElementLoc[0]+60>this.gameArea.width){
+                touchBottomFlag = true;
+                return touchBottomFlag;
+            }
+        }
+        return touchBottomFlag;
+    }
+
     private rotationTransform(px,py,angle){
         return [Math.round(px*Math.cos(angle*Math.PI/2)-py*Math.sin(angle*Math.PI/2)),
                 Math.round(px*Math.sin(angle*Math.PI/2)+py*Math.cos(angle*Math.PI/2))]
@@ -209,11 +243,60 @@ class GameScene extends eui.Component{
             this.maxPreMoveFrame = 30*0.5
         }else if(this.preMoveFrame > this.maxPreMoveFrame || pressedButton != 0){
             //block move    0:none,1:up,2:left,3:right,4:down
-            if(pressedButton == 0){
+            if(pressedButton == 1){
+                let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
+                pseudoBlock.moveBlock(this.currentBlock.x - 0,this.currentBlock.y + 0);
+                pseudoBlock.rotationBlock(1);
+                if(this.CheckLeftBound(pseudoBlock) || this.CheckTouchBottom(pseudoBlock) || this.CheckRightBound(pseudoBlock)){
+                    this.UpdateDisplayRunBlock(0,0)
+                    this.preMoveFrame = 0;
+                    this.maxPreMoveFrame = 30*0.5
+                }else{
+                    this.UpdateDisplayRotationBlock()
+                    this.preMoveFrame = 0;
+                    this.maxPreMoveFrame = 30*0.5
+                }
+            }else if(pressedButton == 2){
+                let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
+                pseudoBlock.moveBlock(this.currentBlock.x - 60,this.currentBlock.y + 0);
+                if(this.CheckLeftBound(pseudoBlock) || this.CheckTouchBottom(pseudoBlock)){
+                    this.UpdateDisplayRunBlock(0,0)
+                    this.preMoveFrame = 0;
+                    this.maxPreMoveFrame = 30*0.5
+                }else{
+                    this.UpdateDisplayRunBlock(-60,0)
+                    this.preMoveFrame = 0;
+                    this.maxPreMoveFrame = 30*0.5
+                }
+            }else if(pressedButton == 3){
+                let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
+                pseudoBlock.moveBlock(this.currentBlock.x + 60,this.currentBlock.y + 0);
+                if(this.CheckRightBound(pseudoBlock) || this.CheckTouchBottom(pseudoBlock)){
+                    this.UpdateDisplayRunBlock(0,0)
+                    this.preMoveFrame = 0;
+                    this.maxPreMoveFrame = 30*0.5
+                }else{
+                    this.UpdateDisplayRunBlock(60,0)
+                    this.preMoveFrame = 0;
+                    this.maxPreMoveFrame = 30*0.5
+                }
+            }else if(pressedButton == 4){
+                let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
+                pseudoBlock.moveBlock(this.currentBlock.x + 0,this.currentBlock.y + 0);
+                let moveDistance = 0;
+                while(!this.CheckTouchBottom(pseudoBlock)){
+                    pseudoBlock.moveBlock(0,60);
+                    moveDistance += 60;
+                }
+                this.UpdateDisplayRunBlock(0,moveDistance-60);
+                this.preMoveFrame = 0;
+                this.maxPreMoveFrame = 30*0.5
+            }else if(pressedButton == 0){
                 let pseudoBlock = new MoveBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
                 pseudoBlock.moveBlock(this.currentBlock.x + 0,this.currentBlock.y + 60);
                 if(this.CheckTouchBottom(pseudoBlock)){
-                    this.gameArea.removeChildAt(0);
+                    this.runArea.removeChildAt(0);
+                    this.runArea.addChildAt(new MoveBlock(0,0),0);
                     let newFillBlock = new FilledBlock(this.currentBlock.getBlockNum(),this.currentBlock.getAngle());
                     newFillBlock.moveBlock(this.currentBlock.x,this.currentBlock.y);
                     this.gameArea.addChild(newFillBlock);

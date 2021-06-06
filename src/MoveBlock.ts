@@ -10,9 +10,11 @@ class MoveBlock extends eui.Component{
                                       [60, 60]];
     private currentHeight;
     private currentWidth;
+    private ID;
 
     public constructor(blockNum:number, angle:number){
         super();
+        this.ID = 1;
         this.currentWidth = this.width;
         this.currentHeight = this.height;
         this.blockNum = blockNum;

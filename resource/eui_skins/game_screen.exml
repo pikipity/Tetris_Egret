@@ -36,4 +36,5 @@
 	<e:Group id="next_display" width="80" height="80" x="292.968" y="27"/>
 	<e:Group id="gameArea" width="600" height="960" x="20" y="150">
 	</e:Group>
+	<e:Group id="runArea" width="600" height="960" x="20" y="150"/>
 </e:Skin>
