@@ -11,11 +11,6 @@ class GameScene extends eui.Component{
     private currentBlock;
     private nextBlock;
     private newBlockFlag: boolean;
-    private start_pos = [[3*this.blockWidth,-1*this.blockWidth],
-                         [3*this.blockWidth,-2*this.blockWidth],
-                         [3*this.blockWidth,-2*this.blockWidth],
-                         [3*this.blockWidth,-2*this.blockWidth],
-                         [3*this.blockWidth,-2*this.blockWidth]];
 
 
 
