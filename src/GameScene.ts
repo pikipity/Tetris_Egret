@@ -41,7 +41,7 @@ class GameScene extends eui.Component{
             this.gameArea.addChild(tmp)
         }
         //add init display blocks
-        this.runArea.addChildAt(new MoveBlock(0,0),0);
+        //this.runArea.addChildAt(new MoveBlock(0,0),0);
         this.next_display.addChild(new DisplayNextBlock(0,0))
     }
 
@@ -109,15 +109,15 @@ class GameScene extends eui.Component{
     }
 
     private UpdateDisplayRunBlock(runX:number, runY:number){
-        this.runArea.removeChildAt(0);
+        //this.runArea.removeChildAt(0);
         this.currentBlock.moveBlock(runX,runY);
-        this.runArea.addChildAt(this.currentBlock,0);
+        //this.runArea.addChildAt(this.currentBlock,0);
     }
 
     private UpdateDisplayRotationBlock(){
-        this.runArea.removeChildAt(0);
+        //this.runArea.removeChildAt(0);
         this.rotationBlock(this.currentBlock);
-        this.runArea.addChildAt(this.currentBlock,0);
+        //this.runArea.addChildAt(this.currentBlock,0);
     }
 
     private getChildBlockLoc(parentX:number,parentY:number,parentAnchorOffX:number,parentAnchorOffY:number,parentAngle:number,
@@ -299,6 +299,7 @@ class GameScene extends eui.Component{
                 this.currentBlock = new MoveBlock(this.nextBlock.getBlockNum(),this.nextBlock.getAngle());
                 this.nextBlock = new DisplayNextBlock(Math.floor(Math.random() * 5) + 1,Math.floor(Math.random() * 4));
                 this.newBlockFlag = false;
+                this.runArea.addChildAt(this.currentBlock,0)
                 this.UpdateDisplayRunBlock(Math.floor((this.blockWidth*5-this.currentBlock.currentWidth/2)/this.blockWidth)*this.blockWidth,-this.currentBlock.currentHeight);
                 if(this.CheckTouchBottom(this.currentBlock)){
                     this.changeState = 2;
@@ -377,7 +378,7 @@ class GameScene extends eui.Component{
                 pseudoBlock.moveBlock(this.currentBlock.x + 0,this.currentBlock.y + this.blockWidth);
                 if(this.CheckTouchBottom(pseudoBlock)){
                     this.runArea.removeChildAt(0);
-                    this.runArea.addChildAt(new MoveBlock(0,0),0);
+                    //this.runArea.addChildAt(new MoveBlock(0,0),0);
                     for(let i=0;i<this.currentBlock.numChildren;i++){
                         let element = this.currentBlock.getChildAt(i);
                         let elementLoc = this.getChildBlockLoc(this.currentBlock.x,this.currentBlock.y,this.currentBlock.anchorOffsetX,this.currentBlock.anchorOffsetY,this.currentBlock.getAngle(),element.x,element.y);
